@@ -52,14 +52,13 @@ export async function POST(request: NextRequest) {
         messages: [
           {
             role: 'system',
-            content: 'You are a job data parser. I will provide you with raw search results for job openings. Your task is to extract a list of 5-8 specific job listings. For each job, provide: "title", "company", "location", and "link". Format your entire response as a JSON array of objects.'
+            content: 'You are a job data parser. I will provide you with raw search results for job openings. Your task is to extract a list of 5-8 specific job listings. For each job, provide: "title", "company", "location", and "link". Format your entire response strictly as a JSON array of objects. Respond ONLY with the JSON.'
           },
           {
             role: 'user',
             content: `Raw Search Data: ${JSON.stringify(rawData)}`
           }
-        ],
-        response_format: { type: 'json_object' }
+        ]
       })
     })
 
