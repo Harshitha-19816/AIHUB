@@ -29,7 +29,7 @@ const tools = [
     name: 'AI Job Search',
     description: 'Find your dream job using advanced AI-powered web crawling.',
     href: '/job-search',
-    icon: BriefcaseSearch,
+    icon: Briefcase,
     color: 'from-emerald-500 to-teal-500',
     stats: 'Firecrawl API'
   }

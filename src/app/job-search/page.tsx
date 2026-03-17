@@ -139,12 +139,10 @@ export default function JobSearchPage() {
                       
                       <div className="pt-2">
                         <Button 
-                          asChild
+                          onClick={() => window.open(job.link, '_blank')}
                           className="w-full bg-slate-800 border border-slate-700 hover:bg-emerald-600 hover:border-emerald-500 text-white font-bold py-5 rounded-xl transition-all"
                         >
-                          <a href={job.link} target="_blank" rel="noopener noreferrer">
-                            Apply Now
-                          </a>
+                          Apply Now
                         </Button>
                       </div>
                     </CardContent>
