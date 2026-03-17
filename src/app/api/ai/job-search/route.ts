@@ -63,7 +63,11 @@ export async function POST(request: NextRequest) {
     })
 
     const parseData = await parseResponse.json()
-    const content = JSON.parse(parseData.choices[0].message.content)
+    let rawContent = parseData.choices[0].message.content
+    // Clean up markdown code blocks if present
+    rawContent = rawContent.replace(/```json/g, '').replace(/```/g, '').trim()
+    
+    const content = JSON.parse(rawContent)
     
     // Handle both { jobs: [...] } and [...] formats
     const jobs = Array.isArray(content) ? content : (content.jobs || content.listings || [])

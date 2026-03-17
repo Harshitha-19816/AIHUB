@@ -53,7 +53,11 @@ export async function POST(request: NextRequest) {
 
     console.log('OpenRouter Response Status:', response.status)
 
-    const summary = JSON.parse(response.data.choices[0].message.content)
+    let rawContent = response.data.choices[0].message.content
+    // Clean up markdown code blocks if present
+    rawContent = rawContent.replace(/```json/g, '').replace(/```/g, '').trim()
+    
+    const summary = JSON.parse(rawContent)
 
     return NextResponse.json(summary)
   } catch (error: any) {
