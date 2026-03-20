@@ -161,9 +161,9 @@ export default function WorkspacePage() {
           {activeTab !== 'none' && (
             <motion.div 
               key={activeTab}
-              initial={{ opacity: 0, scale: 0.8, filter: 'blur(20px)' }}
-              animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-              exit={{ opacity: 0, scale: 0.8, filter: 'blur(20px)' }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
               transition={{ type: 'spring', mass: 1, stiffness: 120, damping: 22 }}
               className="w-full max-w-6xl h-full min-h-[400px] sm:min-h-[500px] max-h-[80vh] sm:max-h-[85vh] frosted-crystal rounded-[24px] sm:rounded-[40px] border-white/10 p-4 sm:p-8 flex flex-col shadow-2xl relative"
             >

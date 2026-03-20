@@ -42,38 +42,38 @@ export function NoteEditor({ open, onOpenChange, onSave, initialData }: NoteEdit
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto custom-scrollbar frosted-crystal iridescent-border text-white shadow-3xl p-8 rounded-[40px] border-white/20">
-        <DialogHeader className="mb-6">
-          <DialogTitle className="text-3xl font-black italic tracking-tighter uppercase text-white">
+      <DialogContent className="sm:max-w-[500px] max-h-[85vh] overflow-y-auto custom-scrollbar frosted-crystal iridescent-border text-white shadow-3xl p-5 sm:p-6 rounded-2xl sm:rounded-3xl border-white/20">
+        <DialogHeader className="mb-3">
+          <DialogTitle className="text-xl sm:text-2xl font-black italic tracking-tighter uppercase text-white">
             {initialData ? 'Memory Revision' : 'Memory Initialization'}
           </DialogTitle>
           <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.4em] mt-1">Authorized Data Input</p>
         </DialogHeader>
         
-        <div className="grid gap-10 py-4">
-          <div className="grid gap-4">
+        <div className="grid gap-5 py-2">
+          <div className="grid gap-2">
             <Label htmlFor="title" className="text-[10px] font-black uppercase tracking-widest text-orange-500/60 ml-2">Sector Label</Label>
             <Input
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Input designation..."
-              className="bg-white/5 border-white/10 focus:border-white/40 text-white h-14 text-xl px-6 rounded-2xl transition-all placeholder:text-white/5 font-medium tracking-tight"
+              className="bg-white/5 border-white/10 focus:border-white/40 text-white h-12 text-base px-4 rounded-xl transition-all placeholder:text-white/5 font-medium tracking-tight"
             />
           </div>
-          <div className="grid gap-4">
+          <div className="grid gap-2">
             <Label htmlFor="content" className="text-[10px] font-black uppercase tracking-widest text-orange-500/60 ml-2">Neural Content</Label>
             <Textarea
               id="content"
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder="What's on your mind?..."
-              className="min-h-[250px] bg-white/5 border-white/10 focus:border-white/40 text-white text-base p-6 rounded-3xl resize-none transition-all leading-relaxed placeholder:text-white/5 font-medium"
+              className="min-h-[150px] bg-white/5 border-white/10 focus:border-white/40 text-white text-sm p-4 rounded-2xl resize-none transition-all leading-relaxed placeholder:text-white/5 font-medium"
             />
           </div>
         </div>
 
-        <DialogFooter className="mt-8 gap-4 sm:gap-0">
+        <DialogFooter className="mt-4 gap-3 sm:gap-0">
           <Button 
             variant="ghost" 
             onClick={() => onOpenChange(false)} 
