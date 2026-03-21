@@ -64,7 +64,7 @@ Rules:
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: 'google/gemini-2.5-flash',
+        model: 'google/gemini-2.0-flash-001',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: `Question: ${query}\n\nWeb Search Results:\n${sourcesContext}` }
