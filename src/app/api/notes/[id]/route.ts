@@ -1,4 +1,5 @@
 import { createClient } from '@/utils/supabase/server'
+import { createAdminClient } from '@/utils/supabase/admin'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function PATCH(
@@ -15,7 +16,9 @@ export async function PATCH(
 
   const { title, content } = await request.json()
 
-  const { data, error } = await supabase
+  const adminClient = createAdminClient()
+
+  const { data, error } = await adminClient
     .from('notes')
     .update({ title, content })
     .eq('id', id)
@@ -41,7 +44,9 @@ export async function DELETE(
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const { error } = await supabase
+  const adminClient = createAdminClient()
+
+  const { error } = await adminClient
     .from('notes')
     .delete()
     .eq('id', id)
