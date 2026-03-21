@@ -55,7 +55,7 @@ function DockIcon({ mouseX, item }: { mouseX: any; item: any }) {
     >
       <span className="text-xl sm:text-2xl mb-1">{item.icon}</span>
       <span className="text-[7px] sm:text-[8px] font-black uppercase tracking-wider text-white/40 group-hover:text-white/80 transition-colors">
-        {item.id === 'none' ? 'Home' : item.id === 'notes' ? 'Notes' : item.id === 'youtube' ? 'YouTube' : 'Jobs'}
+        {item.id === 'none' ? 'Home' : item.id === 'notes' ? 'Notes' : item.id === 'youtube' ? 'YouTube' : item.id === 'research' ? 'Deep Search' : 'Jobs'}
       </span>
       
       {/* Active Indicator */}
