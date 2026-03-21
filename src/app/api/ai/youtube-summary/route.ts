@@ -48,32 +48,22 @@ export async function POST(request: NextRequest) {
       const transcriptItems = await YoutubeTranscript.fetchTranscript(videoId)
       fullText = transcriptItems.map(item => item.text).join(' ')
     } catch (transcriptError) {
-      console.warn('Transcript extraction failed. Using lightning-fast stealth fetch fallback...', transcriptError)
+      console.warn('Transcript extraction failed/blocked. Using Official oEmbed API fallback...', transcriptError)
       
-      // Stealth fetch to bypass Datacenter blocks without using slow headless browsers
-      const pageRes = await fetch(`https://www.youtube.com/watch?v=${videoId}`, {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-          'Accept-Language': 'en-US,en;q=0.9',
-        }
-      })
+      // Use YouTube's official oEmbed API which is safely whitelisted for Datacenter IPs
+      const oembedRes = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`)
       
-      if (!pageRes.ok) {
-        throw new Error('Both Transcript and Fallback Stealth Scraper failed. Please try a different video.')
+      if (!oembedRes.ok) {
+        throw new Error('Both Transcript and Official oEmbed API failed. The video might be private or deleted.')
       }
 
-      const html = await pageRes.text()
+      const oembedData = await oembedRes.json()
       
-      // Extract title
-      const titleMatch = html.match(/<title>(.*?)<\/title>/)
-      const title = titleMatch ? titleMatch[1].replace(' - YouTube', '') : 'Unknown Video'
-      
-      // Extract meta description
-      const descMatch = html.match(/name="description" content="(.*?)"/)
-      const description = descMatch ? descMatch[1] : 'No description available for this video.'
+      const title = oembedData.title || 'Unknown Video'
+      const author = oembedData.author_name || 'Unknown Creator'
 
-      fullText = `Video Title: ${title}\nVideo Description: ${description}`
-      fullText = `[NOTICE: Full transcript was disabled or blocked. Summarizing based on instantly scraped metadata instead:]\n\n` + fullText
+      fullText = `Video Title: ${title}\nChannel/Creator: ${author}`
+      fullText = `[NOTICE: Full transcript was disabled or blocked by Vercel Datacenter. Synthesizing data strictly based on verified Video Title and Creator instead:]\n\n` + fullText
     }
     
     // Limit transcript/metadata size to avoid token limits (approx 10k chars for safety)
