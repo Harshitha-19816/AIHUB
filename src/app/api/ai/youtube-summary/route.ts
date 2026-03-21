@@ -19,7 +19,29 @@ export async function POST(request: NextRequest) {
 
   try {
     // 1. Extract transcript
-    const transcriptItems = await YoutubeTranscript.fetchTranscript(url)
+    let videoId = url
+    try {
+      if (url.includes('youtube.com/') || url.includes('youtu.be/')) {
+        const urlObj = new URL(url)
+        if (urlObj.hostname.includes('youtu.be')) {
+          videoId = urlObj.pathname.slice(1)
+        } else if (urlObj.pathname.includes('/live/')) {
+          videoId = urlObj.pathname.split('/live/')[1]
+        } else if (urlObj.pathname.includes('/shorts/')) {
+          videoId = urlObj.pathname.split('/shorts/')[1]
+        } else {
+          videoId = urlObj.searchParams.get('v') || url
+        }
+      }
+    } catch (e) {
+      console.warn('URL parsing failed, trying raw URL:', url)
+    }
+    
+    // Cleanup any lingering query params or slashes
+    videoId = videoId.split('?')[0].split('&')[0].replace(/\/$/, '')
+    
+    console.log('Extracted Video ID:', videoId)
+    const transcriptItems = await YoutubeTranscript.fetchTranscript(videoId)
     const fullText = transcriptItems.map(item => item.text).join(' ')
     
     // Limit transcript size to avoid token limits (approx 10k chars for safety)
